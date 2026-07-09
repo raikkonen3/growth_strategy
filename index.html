@@ -146,9 +146,41 @@
 
   footer{padding:50px 0 80px; text-align:center; color:var(--text-faint); font-size:12.5px;}
   ::-webkit-scrollbar{height:8px; width:8px;} ::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+
+  .quicknav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,20,26,.85); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .quicknav-inner{
+    max-width:940px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+  }
+  .quicknav-brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:var(--gem); margin-right:6px; flex-shrink:0;}
+  .quicknav a{
+    font-family:'Inter',sans-serif; font-size:13px; color:var(--text-dim);
+    text-decoration:none; padding:6px 0; border-bottom:2px solid transparent;
+    transition:.2s;
+  }
+  .quicknav a:hover{color:var(--text); border-bottom-color:var(--gem-dim);}
+  @media(max-width:700px){
+    .quicknav-inner{gap:14px; padding:12px 20px;}
+    .quicknav a{font-size:12px;}
+  }
 </style>
 </head>
 <body>
+
+<nav class="quicknav">
+  <div class="quicknav-inner">
+    <span class="quicknav-brand">SWAG STRATEGY</span>
+    <a href="#problem">Problem &amp; Opportunity</a>
+    <a href="#metrics">Metric Map</a>
+    <a href="#why">Why These Stages</a>
+    <a href="#bets">Strategic Bets</a>
+    <a href="#sequence">Sequence &amp; Validate</a>
+  </div>
+</nav>
 
 <section class="hero">
   <div class="wrap">

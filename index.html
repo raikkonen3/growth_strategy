@@ -163,6 +163,7 @@
     transition:.2s;
   }
   .quicknav a:hover{color:var(--text); border-bottom-color:var(--gem-dim);}
+  .quicknav a.active{color:var(--gem); border-bottom-color:var(--gem); font-weight:600;}
   @media(max-width:700px){
     .quicknav-inner{gap:14px; padding:12px 20px;}
     .quicknav a{font-size:12px;}
@@ -485,6 +486,26 @@
     });
   });
   renderRank();
+
+  // ---- Quick nav: highlight active section on scroll ----
+  const navLinks = document.querySelectorAll('.quicknav a');
+  const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+
+  function setActiveNav(id){
+    navLinks.forEach(a=>{
+      a.classList.toggle('active', a.getAttribute('href') === '#'+id);
+    });
+  }
+
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        setActiveNav(entry.target.id);
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(sec => { if(sec) observer.observe(sec); });
 </script>
 
 </body>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWAG · New User Growth Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12141a; --bg-raised: #1b1e27; --bg-card: #20232e; --line: #2c303c;
+    --text: #eef0f4; --text-dim: #9298a8; --text-faint: #656b7c;
+    --gem: #6fe3d6; --gem-dim: #3a5f5b; --gold: #e6b567; --purple:#a78bfa; --danger: #e07a6b;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; margin:0; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 28px;}
+  section{padding:88px 0;}
+  section + section{border-top:1px solid var(--line);}
+
+  .facet-row{display:flex; gap:6px; align-items:center; margin-bottom:20px;}
+  .facet{width:9px;height:9px; background:var(--gem); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); opacity:.9;}
+  .facet:nth-child(2){opacity:.55;} .facet:nth-child(3){opacity:.3;}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--gem);}
+
+  .hero{padding:120px 0 90px; position:relative; overflow:hidden;}
+  .hero::before{content:""; position:absolute; top:-200px; right:-160px; width:520px; height:520px; background:radial-gradient(circle, rgba(111,227,214,.14), transparent 70%); pointer-events:none;}
+  .hero h1{font-size:44px; font-weight:600; max-width:680px;}
+  .hero h1 span{color:var(--gem);}
+  .hero p.lead{max-width:600px; margin-top:20px; font-size:16px; color:var(--text-dim);}
+  .meta-row{display:flex; gap:28px; margin-top:36px; flex-wrap:wrap;}
+  .meta-item{font-size:13px; color:var(--text-faint);}
+  .meta-item b{display:block; color:var(--text); font-size:15px; font-weight:600; font-family:'Space Grotesk',sans-serif;}
+
+  .journey{display:flex; gap:14px; margin-top:56px; flex-wrap:wrap;}
+  .j-card{flex:1; min-width:220px; background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; cursor:pointer; transition:border-color .2s, transform .2s;}
+  .j-card:hover{border-color:var(--gem-dim); transform:translateY(-2px);}
+  .j-card .num{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gem);}
+  .j-card h3{font-size:19px; margin-top:8px;}
+  .j-card .sub{font-size:13px; color:var(--text-dim); margin-top:6px;}
+  .j-card .detail{max-height:0; overflow:hidden; transition:max-height .3s ease; font-size:13.5px; color:var(--text-dim); line-height:1.7;}
+  .j-card.open .detail{max-height:220px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);}
+  .j-arrow{align-self:center; color:var(--text-faint); font-size:20px; display:flex; align-items:center;}
+  @media(max-width:760px){.journey{flex-direction:column;} .j-arrow{transform:rotate(90deg); align-self:flex-start; margin-left:14px;}}
+
+  .callout{margin-top:32px; background:var(--bg-raised); border-left:3px solid var(--gem); border-radius:0 10px 10px 0; padding:18px 22px; font-size:14px; color:var(--text-dim);}
+  .callout b{color:var(--text);}
+  .limit-tag{display:inline-block; margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--gold); border:1px solid rgba(230,181,103,.35); padding:3px 10px; border-radius:20px;}
+
+  h2.section-title{font-size:28px; margin-bottom:8px;}
+  p.section-sub{color:var(--text-dim); font-size:14.5px; max-width:640px; margin-bottom:36px;}
+
+  .nsm-card{background:linear-gradient(145deg, var(--bg-card), var(--bg-raised)); border:1px solid var(--gem-dim); border-radius:var(--radius); padding:32px; margin-bottom:28px;}
+  .nsm-card .big{font-size:26px; font-weight:600; font-family:'Space Grotesk',sans-serif; margin-top:10px;}
+  .nsm-card .formula{margin-top:12px; font-size:13.5px; color:var(--gem); background:rgba(111,227,214,.08); display:inline-block; padding:6px 12px; border-radius:8px;}
+
+  .tabs{display:flex; gap:8px; margin-bottom:20px;}
+  .tab-btn{background:none; border:1px solid var(--line); color:var(--text-dim); font-family:'Inter'; font-size:13.5px; padding:9px 18px; border-radius:24px; cursor:pointer; transition:.2s;}
+  .tab-btn.active{background:var(--gem); color:#0d1a18; border-color:var(--gem); font-weight:600;}
+  .tab-panel{display:none;} .tab-panel.active{display:block;}
+
+  .km-item{background:var(--bg-card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:12px;}
+  .km-item h4{font-size:15px;}
+  .km-item .formula{font-size:12.5px; color:var(--text-faint); margin-top:6px;}
+
+  .gr-table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  .gr-table th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-faint); padding:10px 12px; border-bottom:1px solid var(--line);}
+  .gr-table td{padding:14px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--text-dim);}
+  .gr-table tr:last-child td{border-bottom:none;}
+  .gr-table td.name{color:var(--text); font-weight:600; width:150px;}
+  .gr-table .thresh{color:var(--gold); font-size:12.5px;}
+
+  .why-box{background:var(--bg-raised); border:1px solid var(--line); border-radius:var(--radius); padding:26px 28px; font-size:14.5px; color:var(--text-dim);}
+
+  /* pillar chips (single select) */
+  .pillar-chips{display:flex; gap:10px; margin-bottom:32px; flex-wrap:wrap;}
+  .pillar-chip{display:flex; align-items:center; gap:8px; background:var(--bg-card); border:1.5px solid var(--line); border-radius:24px; padding:10px 20px 10px 16px; cursor:pointer; transition:.2s; font-size:14px; font-weight:600; font-family:'Space Grotesk',sans-serif;}
+  .pillar-chip .dot{width:8px; height:8px; border-radius:50%; background:var(--text-faint);}
+  .pillar-chip[data-pillar="arrival"].active{border-color:var(--gold); background:rgba(230,181,103,.1); color:var(--gold);}
+  .pillar-chip[data-pillar="arrival"].active .dot{background:var(--gold);}
+  .pillar-chip[data-pillar="connection"].active{border-color:var(--gem); background:rgba(111,227,214,.1); color:var(--gem);}
+  .pillar-chip[data-pillar="connection"].active .dot{background:var(--gem);}
+  .pillar-chip[data-pillar="amplification"].active{border-color:var(--purple); background:rgba(167,139,250,.1); color:var(--purple);}
+  .pillar-chip[data-pillar="amplification"].active .dot{background:var(--purple);}
+  .pillar-chip:hover{transform:translateY(-1px);}
+
+  .pillar-block{margin-bottom:36px; animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .pillar-summary{font-size:14px; font-weight:600; color:var(--text); margin-bottom:12px; font-family:'Space Grotesk',sans-serif;}
+  .pillar-block-head{display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;}
+  .pillar-block-head .tag{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; padding:3px 10px; border-radius:20px;}
+  .pillar-block[data-pillar="arrival"] .tag{background:rgba(230,181,103,.12); color:var(--gold);}
+  .pillar-block[data-pillar="connection"] .tag{background:rgba(111,227,214,.12); color:var(--gem);}
+  .pillar-block[data-pillar="amplification"] .tag{background:rgba(167,139,250,.12); color:var(--purple);}
+  .pillar-block-head .problem{font-size:13px; color:var(--text-dim);}
+
+  .step-row{display:flex; flex-direction:column; gap:10px;}
+  .step-card{background:var(--bg-card); border:1.5px solid var(--line); border-radius:12px; padding:16px 18px; cursor:pointer; transition:.2s;}
+  .step-card:hover{border-color:var(--text-faint);}
+  .step-card .step-head{display:flex; align-items:center; gap:10px;}
+  .step-card .step-num{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--bg-raised); color:var(--text-faint); flex-shrink:0;}
+  .pillar-block[data-pillar="arrival"] .step-num{color:var(--gold); border:1px solid rgba(230,181,103,.4);}
+  .pillar-block[data-pillar="connection"] .step-num{color:var(--gem); border:1px solid var(--gem-dim);}
+  .pillar-block[data-pillar="amplification"] .step-num{color:var(--purple); border:1px solid rgba(167,139,250,.4);}
+  .step-card .step-title{font-size:14.5px; font-weight:600; flex:1;}
+  .step-card .chevron{color:var(--text-faint); font-size:12px; transition:transform .2s;}
+  .step-card.open .chevron{transform:rotate(90deg);}
+  .step-card .step-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .step-card.open .step-body{max-height:400px; margin-top:12px; padding-top:12px; border-top:1px solid var(--line);}
+  .step-card .row{display:grid; grid-template-columns:90px 1fr; gap:10px; font-size:13px; margin-bottom:8px;}
+  .step-card .row b{color:var(--text-faint); font-weight:500; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; padding-top:2px;}
+  .step-card .row span{color:var(--text-dim);}
+  .step-card.future{opacity:.55;}
+
+  .trade-off{margin-top:14px; background:var(--bg-raised); border-left:2px solid var(--danger); border-radius:0 10px 10px 0; padding:14px 18px; font-size:13px; color:var(--danger);}
+  .trade-off b{color:var(--danger); font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:6px;}
+
+  .empty-hint{font-size:13px; color:var(--text-faint); text-align:center; padding:40px 0; font-style:italic;}
+
+  /* SEQUENCE */
+  .seq-filter{display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
+  .seq-btn{
+    background:var(--bg-card); border:1.5px solid var(--line); border-radius:12px;
+    padding:14px 20px; text-align:center; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;
+    min-width:110px; cursor:pointer; transition:.2s;
+  }
+  .seq-btn .sub{font-family:'Inter'; font-weight:400; font-size:11px; color:var(--text-faint); margin-top:4px;}
+  .seq-btn[data-pillar="arrival"].active{border-color:var(--gold); background:rgba(230,181,103,.08);}
+  .seq-btn[data-pillar="connection"].active{border-color:var(--gem); background:rgba(111,227,214,.08);}
+  .seq-btn[data-pillar="amplification"].active{border-color:var(--purple); background:rgba(167,139,250,.08);}
+  .seq-btn:not(.active){opacity:.4;}
+
+  .rank-list{display:flex; flex-direction:column; gap:10px;}
+  .rank-item{display:grid; grid-template-columns:34px 1fr; gap:14px; background:var(--bg-card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+  .rank-item .rank-num{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:var(--text-faint); padding-top:2px;}
+  .rank-item .rank-main{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px;}
+  .rank-item .tag{font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; padding:3px 9px; border-radius:20px;}
+  .rank-item.arrival .tag{background:rgba(230,181,103,.12); color:var(--gold);}
+  .rank-item.connection .tag{background:rgba(111,227,214,.12); color:var(--gem);}
+  .rank-item.amplification .tag{background:rgba(167,139,250,.12); color:var(--purple);}
+  .rank-item .title{font-size:14.5px; font-weight:600;}
+  .rank-item .why{font-size:12.5px; color:var(--text-dim); margin-bottom:8px;}
+  .rank-item .meta-line{font-size:11px; color:var(--text-faint);}
+  .rank-item .meta-line span{margin-right:14px;}
+
+  .principle-box{margin-top:32px; background:var(--bg-raised); border:1px solid var(--line); border-radius:var(--radius); padding:22px 26px; font-size:13.5px; color:var(--text-dim);}
+  .principle-box .eyebrow{margin-bottom:10px;}
+
+  footer{padding:50px 0 80px; text-align:center; color:var(--text-faint); font-size:12.5px;}
+  ::-webkit-scrollbar{height:8px; width:8px;} ::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="facet-row"><div class="facet"></div><div class="facet"></div><div class="facet"></div></div>
+    <span class="eyebrow">SWAG · Product Take-Home</span>
+    <h1 style="margin-top:14px;">讓新用戶完成第一次<span>正向互動</span>,並開始留下來</h1>
+    <p class="lead">一份聚焦「抵達 → 連結 → 擴散」三個環節的 6 個月成長策略,把新用戶帶到第一個活躍貢獻者的起點。</p>
+    <div class="meta-row">
+      <div class="meta-item">時程<b>6 個月</b></div>
+      <div class="meta-item">核心指標<b>7日有效互動總次數</b></div>
+      <div class="meta-item">策略主軸<b>3 個 Strategic Bets</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="wrap">
+    <h2 class="section-title">Problem &amp; Opportunity</h2>
+    <p class="section-sub">新用戶要成為平台的活躍貢獻者,需要走過三個環節。點擊卡片看每個環節目前的缺口。</p>
+    <div class="journey">
+      <div class="j-card" data-detail="d1">
+        <div class="num">01</div><h3>抵達 Arrival</h3>
+        <div class="sub">遇到並開始關注一個創作者的過程</div>
+        <div class="detail">新用戶進站後不清楚該做什麼,不知道從何找起感興趣的創作者,平台的媒合與引導不足以幫助他們快速找到方向。</div>
+      </div>
+      <div class="j-arrow">→</div>
+      <div class="j-card" data-detail="d2">
+        <div class="num">02</div><h3>連結 Connection</h3>
+        <div class="sub">決定是否跨出第一步互動,即 Activation 前的關鍵決策點</div>
+        <div class="detail">即使找到感興趣的對象,可能因找不到足夠的判斷資訊(定價、回覆速度、活躍度不明),或用戶手上沒有足夠鑽石執行送禮、解鎖、私訊,而在決策前卻步。</div>
+      </div>
+      <div class="j-arrow">→</div>
+      <div class="j-card" data-detail="d3">
+        <div class="num">03</div><h3>擴散 Amplification</h3>
+        <div class="sub">正向互動後能否延續、成為活躍貢獻者</div>
+        <div class="detail">即使前兩者順利完成、用戶已產生正向互動,平台目前缺乏機制讓這段體驗延續下去,推動用戶從單次互動走向持續回訪,也沒有善用這個過程反過來帶動平台成長。</div>
+      </div>
+    </div>
+    <div class="callout"><b>為什麼重要 ——</b> 這三個環節環環相扣,任一個缺口都會限制其他兩者的效益,只解決其中一個,無法讓整條旅程真正順暢。</div>
+    <div class="callout" style="border-left-color:var(--gold); margin-top:16px;">
+      <b>機會 ——</b> 三個環節若被串成自我強化的路徑:新用戶越順利抵達與連結,越多正向互動被創造出來;這些互動如果被有意識地延續,一部分用戶會成為持續回訪的活躍貢獻者,另一部分的正向體驗也能反過來降低下一輪新用戶抵達與連結的成本,不需每一輪成長都仰賴外部拉新預算重新開始。
+      <br><br><b>達成目標 ——</b> 6 個月內,提升新用戶完成首次正向互動(Activation)的比例與品質,同時開始培養其中一部分用戶成為持續回訪的活躍貢獻者,並讓成果反饋回旅程起點。
+      <div class="limit-tag">限制:不涉及穩定留存後的長期經營(消費深度、續訂、規模化 Referral)</div>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="wrap">
+    <h2 class="section-title">Metric Map</h2>
+    <p class="section-sub">North Star 是唯一橫跨三環節的核心指標,Key Metric 與 Guardrail 各自扮演不同角色。</p>
+    <div class="nsm-card">
+      <div class="eyebrow">North Star Metric</div>
+      <div class="big">7 日新用戶有效互動總次數</div>
+      <div class="formula mono">Σ ( 送禮次數 + 私訊次數 + 解鎖次數 )</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="key">Key Metric</button>
+      <button class="tab-btn" data-tab="guard">Guardrail</button>
+    </div>
+    <div class="tab-panel active" id="tab-key">
+      <div class="km-item"><h4>Activation Rate</h4><div class="formula mono">7 日內至少完成一次有效互動的人數 ÷ 當日新用戶總數</div></div>
+      <div class="km-item"><h4>有效互動次數分布圖</h4><div class="formula mono">X 軸:7 日內互動次數(逐一攤開,不分組) ・ Y 軸:對應人數</div></div>
+    </div>
+    <div class="tab-panel" id="tab-guard">
+      <table class="gr-table">
+        <tr><th>指標</th><th>定義 / 公式</th><th>門檻設定方式</th></tr>
+        <tr><td class="name">創作者曝光集中度</td><td>觀察新用戶媒合流量是否過度集中頭部創作者。<br><span class="mono" style="font-size:12px;">(前10%創作者媒合流量) ÷ (全體媒合流量)</span></td><td class="thresh">較過去14天均值,不可上升超過 N 個百分點</td></tr>
+        <tr><td class="name">免費鑽石發放效率</td><td>觀察發放給新用戶的免費鑽石,換來的付費效果是否值得。<br><span class="mono" style="font-size:12px;">(免費鑽石總值) ÷ (30日內總付費金額)</span></td><td class="thresh">較過去4批已滿30天數據均值,不可惡化超過 N 個百分點</td></tr>
+        <tr><td class="name">新進創作者存活率</td><td>觀察新進創作者是否留得住。<br><span class="mono" style="font-size:12px;">(D7內開播/上傳/1on1任一行為人數) ÷ 新進創作者總數</span></td><td class="thresh">較過去14天均值,不可下降超過 N 個百分點</td></tr>
+      </table>
+    </div>
+    <div class="limit-tag" style="margin-top:18px;">以上門檻為初步假設方向,實際數字需依平台現有數據與現況校準</div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <h2 class="section-title">為什麼是這三個環節</h2>
+    <div class="why-box">新用戶從進站到成為活躍貢獻者的旅程中,其實有很多環節都可以優化,例如搜尋精準度、推薦排序、內容分類、甚至外部行銷渠道。這次選擇聚焦抵達、連結、擴散三個環節,判斷標準有兩個:第一,這三者目前都還沒有系統性機制處理,不是重複優化已經做過的地方;第二,三者環環相扣,同時處理能形成一條完整的成長路徑,而不是單點的局部改善。</div>
+  </div>
+</section>
+
+<section id="bets">
+  <div class="wrap">
+    <h2 class="section-title">3 Strategic Bets</h2>
+    <div class="pillar-chips">
+      <div class="pillar-chip" data-pillar="arrival"><span class="dot"></span>抵達 Arrival</div>
+      <div class="pillar-chip" data-pillar="connection"><span class="dot"></span>連結 Connection</div>
+      <div class="pillar-chip" data-pillar="amplification"><span class="dot"></span>擴散 Amplification</div>
+    </div>
+
+    <div id="pillar-stack"></div>
+  </div>
+</section>
+
+<section id="sequence">
+  <div class="wrap">
+    <h2 class="section-title">Sequence &amp; Validate</h2>
+    <p class="section-sub">說明:將三個 bet 底下的每個步驟,依先後順序由上而下排序。</p>
+
+    <div class="seq-filter">
+      <div class="seq-btn active" data-pillar="arrival">抵達<div class="sub">可先行</div></div>
+      <div class="seq-btn active" data-pillar="connection">連結<div class="sub">可並行</div></div>
+      <div class="seq-btn active" data-pillar="amplification">擴散<div class="sub">依賴前兩者</div></div>
+    </div>
+
+    <div class="rank-list" id="rank-list"></div>
+
+    <div class="principle-box">
+      <div class="eyebrow">通用驗證原則</div>
+      三個 bet 的每個子機制,在 A/B 測試階段若同時有多項變數在跑,遵循同一套判斷邏輯:若多項變數都驗證有效,進一步評估疊加使用是否產生邊際效益遞減;若僅其中一項驗證有效,僅將該項全站上線,不強行疊加無效的變數,避免徒增使用者體驗複雜度與工程維護成本。
+    </div>
+  </div>
+</section>
+
+<footer>Alex Yu · SWAG Product Manager Take-Home</footer>
+
+<script>
+  document.querySelectorAll('.j-card').forEach(card=>{
+    card.addEventListener('click', ()=> card.classList.toggle('open'));
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ===== BET STEP DATA =====
+  const pillars = {
+    arrival: {
+      label:"抵達", summary:"把原本偏向導流給頭部創作者的媒合機制,擴大觸及中小型創作者,讓新用戶看到更多元的對象選擇。",
+      problem:"新用戶進站後不清楚該做什麼,不知道從何找起感興趣的創作者,平台的媒合與引導不足以幫助他們快速找到方向。",
+      tradeoff:"媒合邏輯若過度導向中小型創作者以求曝光公平,可能犧牲新用戶第一次互動的品質,這是創作者曝光集中度(Guardrail)與 Activation 品質之間的取捨。",
+      steps:[
+        { title:"單一指標規則,快速上線驗證方向",
+          mechanism:"建立「創作者可承接流量分數」,初版僅用「近期上線時長」計算,媒合邏輯在既有熱門度排序中加入此分數作為次要權重,避免新用戶第一次互動全部湧向頭部主播。",
+          metrics:"新用戶首次互動後的創作者回應率、Activation 後 D7 回訪率" },
+        { title:"加入回應速度與私訊佇列長度,做加權規則",
+          mechanism:"三項指標(上線時長、回應速度、私訊佇列長度)加權計算,佇列長度為反向指標;若即時追蹤技術成本過高,可先用近24小時平均回覆延遲替代。",
+          metrics:"相較前一步,回應率與 D7 回訪率是否進一步提升、誤判率是否下降" },
+        { title:"評估是否導入模型化排序",
+          mechanism:"若加權規則效果尚未出現天花板,不需為模型化而模型化;若已飽和,評估用歷史媒合成功數據訓練排序模型。需排除已有明確目標的創作者導流用戶。",
+          metrics:"模型化 vs. 加權規則的 A/B 對比、創作者導流用戶被誤媒合的比例是否為零" }
+      ]
+    },
+    connection: {
+      label:"連結", summary:"讓價格、活躍度等資訊更清楚,降低決策難度,並補上新手任務引導與完成誘因,幫助用戶跨出第一步。",
+      problem:"用戶找到感興趣的創作者後,可能因手上鑽石不足,或缺乏足夠判斷資訊(定價、回覆速度、活躍度),在決策前卻步。",
+      tradeoff:"資源引導若發放過於慷慨(任務獎勵或新手包折數過高),會直接衝擊免費鑽石發放效率這條 Guardrail,需在「提升 Activation 意願」與「控制發放成本」之間取捨。",
+      steps:[
+        { title:"資源引導 + 資訊透明化,上線並驗證",
+          mechanism:"在既有新手任務基礎上,補上任務進度指引、全部完成的鑽石總額預告、分段里程碑獎勵(完成5/10/20項額外加碼),並上線7天限時新手鑽石包;同時排行榜卡片加入漸進式資訊揭露(價格區間採近7日中位數、活躍度)。",
+          metrics:"任務完成率、新手鑽石包購買率、List-to-互動 CTR" },
+        { title:"與擴散導流用戶做交叉優化",
+          mechanism:"創作者導流來的用戶已有既定目標,測試是否可簡化揭露流程,減少不必要的資訊摩擦。",
+          metrics:"創作者導流用戶 vs. 自然抵達用戶的決策時間差異" }
+      ]
+    },
+    amplification: {
+      label:"擴散", summary:"把創作者原本零散的外部導流,系統化為可追蹤、可放大的分潤合作機制。",
+      problem:"即使前兩者順利完成、用戶已產生正向互動,平台目前缺乏機制讓這段體驗延續下去,也沒有善用這個過程反過來帶動平台成長。創作者本身通常已有外部社群,但目前只是零散、非系統化地自然發生。",
+      tradeoff:"平台若急於將導流用戶二次媒合給其他創作者,可能稀釋原創作者粉絲關係;若完全不做,則難以培養用戶對平台整體的黏著度。",
+      steps:[
+        { title:"Phase 1,最小可行版本",
+          mechanism:"觸發條件設在有效行為,而非連接帳號等淺層動作(例如首次送禮、私訊、或解鎖任一行為)。雙向獎勵:創作者依帶來的新用戶首月消費獲得分潤;新用戶獲得首次消費的額外鑽石補貼。",
+          metrics:"創作者導流用戶的 Activation Rate、7日有效互動次數,相較自然抵達用戶的差異" },
+        { title:"Phase 2,持續性獎勵與渠道擴大",
+          mechanism:"若 Phase 1 驗證有效,獎勵改為依新用戶後續消費持續產生分潤(設上限月數);渠道從創作者個人延伸至 KOL/內容渠道,統一追蹤與分潤機制。",
+          metrics:"導流用戶30日回訪率,相較自然抵達用戶的差異" },
+        { title:"Phase 3(未來方向,本次不展開)",
+          mechanism:"若渠道與分潤機制成熟,可進一步發展群體化的推薦誘因設計。",
+          metrics:"—", future:true }
+      ]
+    }
+  };
+
+  // ---- Bets: single-select ----
+  let activePillar = "arrival";
+
+  function renderStack(){
+    document.querySelectorAll('.pillar-chip').forEach(chip=>{
+      chip.classList.toggle('active', chip.dataset.pillar === activePillar);
+    });
+    const stack = document.getElementById('pillar-stack');
+    if(!activePillar){
+      stack.innerHTML = '<div class="empty-hint">選擇上方環節查看完整分步計畫</div>';
+      return;
+    }
+    const p = pillars[activePillar];
+    const stepsHtml = p.steps.map((s,i)=>`
+      <div class="step-card ${s.future?'future':''}" data-idx="${i}">
+        <div class="step-head">
+          <div class="step-num">${i+1}</div>
+          <div class="step-title">${s.title}</div>
+          <div class="chevron">▸</div>
+        </div>
+        <div class="step-body">
+          <div class="row"><b>機制</b><span>${s.mechanism}</span></div>
+          <div class="row"><b>觀察指標</b><span>${s.metrics}</span></div>
+        </div>
+      </div>
+    `).join('');
+    stack.innerHTML = `<div class="pillar-block" data-pillar="${activePillar}">
+      <div class="pillar-block-head">
+        <span class="tag">${p.label}</span>
+        <span class="problem">${p.problem}</span>
+      </div>
+      <div class="pillar-summary">${p.summary}</div>
+      <div class="step-row">${stepsHtml}</div>
+      <div class="trade-off"><b>Trade-off</b>${p.tradeoff}</div>
+    </div>`;
+    stack.querySelectorAll('.step-card').forEach(card=>{
+      card.addEventListener('click', ()=> card.classList.toggle('open'));
+    });
+  }
+
+  document.querySelectorAll('.pillar-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const key = chip.dataset.pillar;
+      activePillar = (activePillar === key) ? null : key; // 再次點擊可取消
+      renderStack();
+    });
+  });
+  renderStack();
+
+  // ---- Sequence: filterable ranked list ----
+  const rankData = [
+    { pillar:"arrival", title:"單一指標規則,快速上線驗證方向",
+      why:"需先建立創作者可承接流量分數,但不依賴其他 bet 的產出,可以與連結並行推進。",
+      dep:"low", threshold:"med", effort:"med", impact:"med" },
+    { pillar:"connection", title:"資源引導 + 資訊透明化,上線並驗證",
+      why:"沿用既有資料重新設計呈現方式,不需新建系統,無任何依賴,啟動門檻最低,最快能獨立見效。",
+      dep:"low", threshold:"low", effort:"low", impact:"low" },
+    { pillar:"arrival", title:"加入回應速度與私訊佇列長度,做加權規則",
+      why:"需要前一步驗證出的資料基礎,才能判斷是否值得加入更多訊號。",
+      dep:"med", threshold:"med", effort:"med", impact:"med" },
+    { pillar:"amplification", title:"Phase 1,最小可行版本",
+      why:"導流用戶需要抵達與連結已打底的機制才能被承接,故等待前兩者驗證出初步成效後才啟動。",
+      dep:"high", threshold:"high", effort:"high", impact:"high" },
+    { pillar:"connection", title:"與擴散導流用戶做交叉優化",
+      why:"需要擴散帶來實際的導流用戶後,才有對象可以測試簡化流程是否合適。",
+      dep:"high", threshold:"med", effort:"low", impact:"med" },
+    { pillar:"arrival", title:"評估是否導入模型化排序",
+      why:"需要前一步加權規則的效果數據判斷是否飽和,同時需排除擴散帶來的導流用戶,兩者皆須等待前置資料到位。",
+      dep:"high", threshold:"high", effort:"high", impact:"med" },
+    { pillar:"amplification", title:"Phase 2,持續性獎勵與渠道擴大",
+      why:"需 Phase 1 驗證有效後才進一步加碼,避免在機制未證實前就擴大投入。",
+      dep:"high", threshold:"high", effort:"high", impact:"high" }
+  ];
+
+  const badgeLabel = {low:"Low", med:"Med", high:"High"};
+  const pillarLabelMap = {arrival:"抵達", connection:"連結", amplification:"擴散"};
+  let activeFilters = new Set(["arrival","connection","amplification"]);
+
+  function renderRank(){
+    document.querySelectorAll('.seq-btn').forEach(btn=>{
+      btn.classList.toggle('active', activeFilters.has(btn.dataset.pillar));
+    });
+    const list = rankData.filter(r=>activeFilters.has(r.pillar));
+    const el = document.getElementById('rank-list');
+    if(list.length===0){
+      el.innerHTML = '<div class="empty-hint">選擇上方環節查看排序</div>';
+      return;
+    }
+    el.innerHTML = list.map((r,i)=>`
+      <div class="rank-item ${r.pillar}">
+        <div class="rank-num">${i+1}</div>
+        <div>
+          <div class="rank-main">
+            <span class="tag">${pillarLabelMap[r.pillar]}</span>
+            <span class="title">${r.title}</span>
+          </div>
+          <div class="why">${r.why}</div>
+          <div class="meta-line">
+            <span>相依性 ${badgeLabel[r.dep]}</span>
+            <span>啟動門檻 ${badgeLabel[r.threshold]}</span>
+            <span>Effort ${badgeLabel[r.effort]}</span>
+            <span>見效速度 ${r.impact==='low'?'Fast':r.impact==='high'?'Slow':'Med'}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.querySelectorAll('.seq-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.pillar;
+      if(activeFilters.has(key)){
+        if(activeFilters.size>1) activeFilters.delete(key); // 篩選至少留一個環節
+        else activeFilters.delete(key); // 允許清空
+      } else {
+        activeFilters.add(key);
+      }
+      renderRank();
+    });
+  });
+  renderRank();
+</script>
+
+</body>
+</html>

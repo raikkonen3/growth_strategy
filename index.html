@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlRoot">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +22,12 @@
   section{padding:88px 0;}
   section + section{border-top:1px solid var(--line);}
 
+  /* language toggling: default show .lang-en, hide .lang-zh */
+  .lang-zh{display:none;}
+  body.zh .lang-en{display:none;}
+  body.zh .lang-zh{display:block;}
+  body.zh span.lang-zh, body.zh .lang-zh-inline{display:inline;}
+
   .facet-row{display:flex; gap:6px; align-items:center; margin-bottom:20px;}
   .facet{width:9px;height:9px; background:var(--gem); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); opacity:.9;}
   .facet:nth-child(2){opacity:.55;} .facet:nth-child(3){opacity:.3;}
@@ -29,8 +35,7 @@
 
   .hero{padding:120px 0 90px; position:relative; overflow:hidden;}
   .hero::before{content:""; position:absolute; top:-200px; right:-160px; width:520px; height:520px; background:radial-gradient(circle, rgba(111,227,214,.14), transparent 70%); pointer-events:none;}
-  .hero h1{font-size:44px; font-weight:600; max-width:680px;}
-  .hero h1 span{color:var(--gem);}
+  .hero h1{font-size:42px; font-weight:600; max-width:680px;}
   .hero p.lead{max-width:600px; margin-top:20px; font-size:16px; color:var(--text-dim);}
   .meta-row{display:flex; gap:28px; margin-top:36px; flex-wrap:wrap;}
   .meta-item{font-size:13px; color:var(--text-faint);}
@@ -43,7 +48,15 @@
   .j-card h3{font-size:19px; margin-top:8px;}
   .j-card .sub{font-size:13px; color:var(--text-dim); margin-top:6px;}
   .j-card .detail{max-height:0; overflow:hidden; transition:max-height .3s ease; font-size:13.5px; color:var(--text-dim); line-height:1.7;}
-  .j-card.open .detail{max-height:220px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);}
+  .j-card.open .detail{max-height:260px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);}
+  .concept-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; text-transform:uppercase;
+    padding:4px 10px; border-radius:20px; margin-bottom:10px;
+  }
+  .j-card[data-detail="d1"] .concept-tag{background:rgba(230,181,103,.14); color:var(--gold);}
+  .j-card[data-detail="d2"] .concept-tag{background:rgba(111,227,214,.14); color:var(--gem);}
+  .j-card[data-detail="d3"] .concept-tag{background:rgba(167,139,250,.14); color:var(--purple);}
   .j-arrow{align-self:center; color:var(--text-faint); font-size:20px; display:flex; align-items:center;}
   @media(max-width:760px){.journey{flex-direction:column;} .j-arrow{transform:rotate(90deg); align-self:flex-start; margin-left:14px;}}
 
@@ -71,10 +84,12 @@
   .gr-table th{text-align:left; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-faint); padding:10px 12px; border-bottom:1px solid var(--line);}
   .gr-table td{padding:14px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--text-dim);}
   .gr-table tr:last-child td{border-bottom:none;}
-  .gr-table td.name{color:var(--text); font-weight:600; width:170px;}
+  .gr-table td.name{color:var(--text); font-weight:600; width:160px;}
   .gr-table .thresh{color:var(--gold); font-size:12.5px;}
 
   .why-box{background:var(--bg-raised); border:1px solid var(--line); border-radius:var(--radius); padding:26px 28px; font-size:14.5px; color:var(--text-dim);}
+  .why-box p{margin:0 0 14px 0;}
+  .why-box p:last-child{margin-bottom:0;}
 
   .pillar-chips{display:flex; gap:10px; margin-bottom:32px; flex-wrap:wrap;}
   .pillar-chip{display:flex; align-items:center; gap:8px; background:var(--bg-card); border:1.5px solid var(--line); border-radius:24px; padding:10px 20px 10px 16px; cursor:pointer; transition:.2s; font-size:14px; font-weight:600; font-family:'Space Grotesk',sans-serif;}
@@ -147,27 +162,20 @@
   footer{padding:50px 0 80px; text-align:center; color:var(--text-faint); font-size:12.5px;}
   ::-webkit-scrollbar{height:8px; width:8px;} ::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
 
-  .quicknav{
-    position:sticky; top:0; z-index:50;
-    background:rgba(18,20,26,.85); backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .quicknav-inner{
-    max-width:940px; margin:0 auto; padding:14px 28px;
-    display:flex; align-items:center; gap:22px; flex-wrap:wrap;
-  }
+  .quicknav{position:sticky; top:0; z-index:50; background:rgba(18,20,26,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .quicknav-inner{max-width:940px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; gap:22px; flex-wrap:wrap;}
   .quicknav-brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:var(--gem); margin-right:6px; flex-shrink:0;}
-  .quicknav a{
-    font-family:'Inter',sans-serif; font-size:13px; color:var(--text-dim);
-    text-decoration:none; padding:6px 0; border-bottom:2px solid transparent;
-    transition:.2s;
-  }
+  .quicknav a{font-family:'Inter',sans-serif; font-size:13px; color:var(--text-dim); text-decoration:none; padding:6px 0; border-bottom:2px solid transparent; transition:.2s;}
   .quicknav a:hover{color:var(--text); border-bottom-color:var(--gem-dim);}
   .quicknav a.active{color:var(--gem); border-bottom-color:var(--gem); font-weight:600;}
-  @media(max-width:700px){
-    .quicknav-inner{gap:14px; padding:12px 20px;}
-    .quicknav a{font-size:12px;}
+  .quicknav-spacer{flex:1;}
+  .lang-toggle{display:flex; gap:4px; background:var(--bg-card); border:1px solid var(--line); border-radius:20px; padding:3px; flex-shrink:0;}
+  .lang-btn{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:600; padding:6px 14px;
+    border-radius:16px; cursor:pointer; color:var(--text-faint); background:none; border:none; transition:.2s;
   }
+  .lang-btn.active{background:var(--gem); color:#0d1a18;}
+  @media(max-width:760px){.quicknav-inner{gap:12px; padding:12px 20px;} .quicknav a{font-size:12px;} .quicknav-spacer{display:none;}}
 </style>
 </head>
 <body>
@@ -175,11 +183,15 @@
 <nav class="quicknav">
   <div class="quicknav-inner">
     <span class="quicknav-brand">SWAG STRATEGY</span>
-    <a href="#problem">Problem &amp; Opportunity</a>
-    <a href="#metrics">Metric Map</a>
-    <a href="#why">Why These Stages</a>
-    <a href="#bets">Strategic Bets</a>
-    <a href="#sequence">Sequence &amp; Validate</a>
+    <a href="#problem"><span class="lang-en">Problem &amp; Opportunity</span><span class="lang-zh">問題與機會</span></a>
+    <a href="#metrics"><span class="lang-en">Metric Map</span><span class="lang-zh">指標地圖</span></a>
+    <a href="#bets"><span class="lang-en">Strategic Bets</span><span class="lang-zh">3 Strategic Bets</span></a>
+    <a href="#sequence"><span class="lang-en">Sequence &amp; Validate</span><span class="lang-zh">Sequence &amp; Validate</span></a>
+    <div class="quicknav-spacer"></div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="zh">中文</button>
+    </div>
   </div>
 </nav>
 
@@ -187,12 +199,18 @@
   <div class="wrap">
     <div class="facet-row"><div class="facet"></div><div class="facet"></div><div class="facet"></div></div>
     <span class="eyebrow">SWAG · Product Take-Home</span>
-    <h1 style="margin-top:14px;">Turn new users into active contributors</h1>
-    <p class="lead">A 6-month growth strategy that carries new users to their first active-contributor moment.</p>
+    <h1 style="margin-top:14px;">
+      <span class="lang-en">Turn new users into active contributors</span>
+      <span class="lang-zh">讓新用戶成為活躍貢獻者</span>
+    </h1>
+    <p class="lead">
+      <span class="lang-en">A 6-month growth strategy that carries new users to their first active-contributor moment.</span>
+      <span class="lang-zh">一份六個月的成長策略,帶新用戶走到第一個活躍貢獻者的時刻。</span>
+    </p>
     <div class="meta-row">
-      <div class="meta-item">Timeline<b>6 months</b></div>
-      <div class="meta-item">North Star<b>7-Day Effective Interaction Volume</b></div>
-      <div class="meta-item">Focus<b>3 Strategic Bets</b></div>
+      <div class="meta-item"><span class="lang-en">Timeline</span><span class="lang-zh">時程</span><b>6 <span class="lang-en">months</span><span class="lang-zh">個月</span></b></div>
+      <div class="meta-item"><span class="lang-en">North Star</span><span class="lang-zh">核心指標</span><b><span class="lang-en">7-Day Effective Interaction Volume</span><span class="lang-zh">7日有效互動總量</span></b></div>
+      <div class="meta-item"><span class="lang-en">Focus</span><span class="lang-zh">策略主軸</span><b>3 Strategic Bets</b></div>
     </div>
   </div>
 </section>
@@ -200,31 +218,67 @@
 <section id="problem">
   <div class="wrap">
     <h2 class="section-title">Problem &amp; Opportunity</h2>
-    <p class="section-sub">For a new user to become an active contributor, they need to move through three stages. Click a card to see the gap in each.</p>
+    <p class="section-sub">
+      <span class="lang-en">This strategy's unit of analysis is the new user's journey combined with structural constraints unique to SWAG's business model. Search, recommendations, and UI/UX matter and are ongoing general optimizations; the three stages below each map to a problem that only exists because of SWAG's model. SWAG's own data shows 1-on-1 private chat has an 18x higher gifting rate than public livestreams, so the platform's real value sits in live and 1-on-1 interaction, which is why this strategy focuses there.</span>
+      <span class="lang-zh">這份策略的分析單位,是新用戶旅程加上 SWAG 商業模式獨有的結構限制。Search、推薦、UI/UX 都很重要,是持續進行中的常態優化;以下三個環節,分別對應到只有 SWAG 這種模式才會出現的問題。SWAG 的數據顯示,1 對 1 私聊的送禮率是公開直播的 18 倍,平台真正的價值核心集中在直播和 1 對 1 互動,這也是這份策略聚焦在這裡的原因。</span>
+    </p>
+
+    <div class="callout" style="border-left-color:var(--gold);">
+      <b><span class="lang-en">Opportunity:</span><span class="lang-zh">機會:</span></b>
+      <span class="lang-en"> If the three stages formed a self-reinforcing loop, smoother arrival and connection would create more positive interactions. Some users become repeat, active contributors, and their positive experience lowers the cost of the next round, so growth wouldn't need to restart from scratch each cycle.</span>
+      <span class="lang-zh"> 若三個環節形成自我強化的循環,更順暢的抵達與連結會創造更多正向互動。部分用戶會成為持續回訪的活躍貢獻者,他們的正向體驗也會降低下一輪的成本,成長不需要每一輪都從零開始。</span>
+      <br><br>
+      <b><span class="lang-en">Goal:</span><span class="lang-zh">目標:</span></b>
+      <span class="lang-en"> Within 6 months, raise the rate and quality of new users completing Activation, and begin converting a portion into repeat, active contributors.</span>
+      <span class="lang-zh"> 6 個月內,提升新用戶完成 Activation 的比例與品質,並開始把一部分用戶轉化為持續回訪的活躍貢獻者。</span>
+      <div class="limit-tag">
+        <span class="lang-en">Scope: excludes long-term retention once users are established (spend depth, subscriptions, scaled referral)</span>
+        <span class="lang-zh">範疇:不包含用戶穩定後的長期經營(消費深度、訂閱、規模化推薦)</span>
+      </div>
+    </div>
+
+    <p class="section-sub" style="margin-top:40px;">
+      <span class="lang-en">For a new user to become an active contributor, they need to move through three stages. Click a card to see the reasoning behind each.</span>
+      <span class="lang-zh">新用戶要成為活躍貢獻者,需要走過三個環節。點擊卡片看每個環節背後的論述。</span>
+    </p>
     <div class="journey">
       <div class="j-card" data-detail="d1">
-        <div class="num">01</div><h3>Arrival</h3>
-        <div class="sub">Discovering and following a creator</div>
-        <div class="detail">New users don't know what to do after landing, or where to find a creator they're interested in. Matching and onboarding guidance aren't enough to help them find direction quickly.</div>
+        <div class="num">01</div>
+        <h3><span class="lang-en">Arrival</span><span class="lang-zh">抵達 Arrival</span></h3>
+        <div class="sub"><span class="lang-en">Discovering and following a creator</span><span class="lang-zh">發現並開始關注一個創作者</span></div>
+        <div class="detail">
+          <div class="concept-tag"><span class="lang-en">Two-Sided Marketplace Imbalance</span><span class="lang-zh">雙邊市場失衡</span></div>
+          <span class="lang-en">New users don't know what to do after landing, or where to find a creator of interest. Live and 1-on-1 are a creator's real-time service with limited capacity; when traffic concentrates on top creators, it hurts both sides, quality drops for users piling onto the same creator, and new creators can't get enough traffic to survive. This affects whether the platform keeps attracting new creators.</span>
+          <span class="lang-zh">新用戶進站後不知道該做什麼,也不知道去哪裡找感興趣的創作者。直播和 1 對 1 是創作者的即時服務,產能有限;流量集中頭部,會同時傷害兩邊,用戶這邊互動品質下降,新進創作者那邊分不到流量、難以生存。這關係到平台能不能持續吸引新創作者。</span>
+        </div>
       </div>
       <div class="j-arrow">→</div>
       <div class="j-card" data-detail="d2">
-        <div class="num">02</div><h3>Connection</h3>
-        <div class="sub">Deciding to take the first step, the key decision point before Activation</div>
-        <div class="detail">Even after finding a creator of interest, users may hesitate to act, either lacking enough diamonds to send a gift, unlock content, or message, or lacking enough information to judge whether it's worth it (pricing, response speed, activity level).</div>
+        <div class="num">02</div>
+        <h3><span class="lang-en">Connection</span><span class="lang-zh">連結 Connection</span></h3>
+        <div class="sub"><span class="lang-en">Deciding to take the first step, the key decision point before Activation</span><span class="lang-zh">決定是否跨出第一步,即 Activation 前的關鍵決策點</span></div>
+        <div class="detail">
+          <div class="concept-tag"><span class="lang-en">Diamond Economy</span><span class="lang-zh">鑽石經濟</span></div>
+          <span class="lang-en">Users may hesitate from lacking diamonds or lacking information (pricing, response speed, activity level). This friction is specific to SWAG: no subscription, every interaction costs diamonds. Arrival is the precondition for Connection.</span>
+          <span class="lang-zh">用戶可能因為缺乏鑽石,或缺乏資訊(定價、回覆速度、活躍度)而猶豫。這個卡點是 SWAG 特有的鑽石經濟,沒有訂閱制,每次互動都要付費。抵達是連結的前提。</span>
+        </div>
       </div>
       <div class="j-arrow">→</div>
       <div class="j-card" data-detail="d3">
-        <div class="num">03</div><h3>Amplification</h3>
-        <div class="sub">Whether a positive interaction sustains itself into becoming an active contributor</div>
-        <div class="detail">Even when a user has a positive interaction, the platform has no mechanism to carry that experience forward, whether into repeat visits or into growth for the platform.</div>
+        <div class="num">03</div>
+        <h3><span class="lang-en">Amplification</span><span class="lang-zh">擴散 Amplification</span></h3>
+        <div class="sub"><span class="lang-en">Whether a positive interaction sustains itself into becoming an active contributor</span><span class="lang-zh">正向互動是否能延續,進而成為活躍貢獻者</span></div>
+        <div class="detail">
+          <div class="concept-tag"><span class="lang-en">Privacy Concern</span><span class="lang-zh">隱私顧慮</span></div>
+          <span class="lang-en">The platform has no mechanism to carry a positive interaction forward. Connection's success means real earnings for creators, who typically already have external followings and are more willing to bring those fans onto the platform. This strategy chose creator-driven referral over user-invites-user, since adult-platform users don't want their social circle to know they use it. Creators are already public-facing, so this concern doesn't apply to them.</span>
+          <span class="lang-zh">平台目前沒有機制讓正向互動延續下去。連結成功對創作者是實際收益,創作者本身通常已有外部粉絲,更願意帶他們進平台。這裡選擇創作者驅動而非用戶邀請用戶,因為成人平台用戶不想讓社交圈知道自己在用,創作者公開露臉,沒有這層顧慮。</span>
+        </div>
       </div>
     </div>
-    <div class="callout"><b>Why it matters:</b> These three stages are interdependent. A gap in any one limits the payoff from the other two; fixing only one won't make the whole journey work.</div>
-    <div class="callout" style="border-left-color:var(--gold); margin-top:16px;">
-      <b>Opportunity:</b> If the three stages formed a self-reinforcing loop, smoother arrival and connection would create more positive interactions. Some of those users become repeat, active contributors, and their positive experience lowers the cost of the next round of arrival and connection, so growth wouldn't need to restart from scratch each cycle.
-      <br><br><b>Goal:</b> Within 6 months, raise both the rate and quality of new users completing their first positive interaction (Activation), begin converting a portion of them into repeat, active contributors, and feed that outcome back into the start of the journey.
-      <div class="limit-tag">Scope: excludes long-term retention once users are established (spend depth, subscriptions, scaled referral)</div>
+    <div class="callout" style="margin-top:32px;">
+      <b><span class="lang-en">Why it matters:</span><span class="lang-zh">為什麼重要:</span></b>
+      <span class="lang-en"> These three stages are interdependent. Arrival's output is the precondition for Connection; Connection's output is the motivation behind Amplification. A gap in any one limits the payoff from the other two.</span>
+      <span class="lang-zh"> 三個環節環環相扣。抵達的產出是連結的前提;連結的產出是擴散的動機來源。任一個缺口都會限制其他兩者的效益。</span>
     </div>
   </div>
 </section>
@@ -232,49 +286,95 @@
 <section id="metrics">
   <div class="wrap">
     <h2 class="section-title">Metric Map</h2>
-    <p class="section-sub">The North Star is the one metric that spans all three stages; Key Metrics and Guardrails play different supporting roles.</p>
+    <p class="section-sub">
+      <span class="lang-en">The North Star is the one metric that spans all three stages; Key Metrics and Guardrails play different supporting roles.</span>
+      <span class="lang-zh">North Star 是唯一橫跨三個環節的核心指標,Key Metric 與 Guardrail 各自扮演不同角色。</span>
+    </p>
     <div class="nsm-card">
       <div class="eyebrow">North Star Metric</div>
-      <div class="big">7-Day New User Effective Interaction Volume</div>
-      <div class="formula mono">Σ ( gifts sent + private messages + unlocks )</div>
+      <div class="big"><span class="lang-en">7-Day New User Effective Interaction Volume</span><span class="lang-zh">7日新用戶有效互動總量</span></div>
+      <div class="formula mono"><span class="lang-en">Σ ( gifts sent + private messages + unlocks )</span><span class="lang-zh">Σ ( 送禮 + 私訊 + 解鎖 )</span></div>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="key">Key Metric</button>
       <button class="tab-btn" data-tab="guard">Guardrail</button>
     </div>
     <div class="tab-panel active" id="tab-key">
-      <div class="km-item"><h4>Activation Rate</h4><div class="formula mono">Users with ≥1 effective interaction within 7 days ÷ total new users that day</div></div>
-      <div class="km-item"><h4>Effective Interaction Distribution</h4><div class="formula mono">X-axis: interaction count within 7 days (plotted individually, not grouped) · Y-axis: number of users</div></div>
+      <div class="km-item">
+        <h4>Activation Rate</h4>
+        <div class="formula mono">
+          <span class="lang-en">Users with ≥1 effective interaction within 7 days ÷ total new users that day</span>
+          <span class="lang-zh">7日內至少完成一次有效互動的用戶數 ÷ 當日新用戶總數</span>
+        </div>
+      </div>
+      <div class="km-item">
+        <h4><span class="lang-en">Effective Interaction Distribution</span><span class="lang-zh">有效互動分布</span></h4>
+        <div class="formula mono">
+          <span class="lang-en">X-axis: interaction count within 7 days (plotted individually) · Y-axis: number of users</span>
+          <span class="lang-zh">X 軸:7日內互動次數(逐一呈現,不分組) ・ Y 軸:對應用戶數</span>
+        </div>
+      </div>
     </div>
     <div class="tab-panel" id="tab-guard">
       <table class="gr-table">
-        <tr><th>Metric</th><th>Definition / Formula</th><th>Threshold logic</th></tr>
-        <tr><td class="name">Creator Exposure Concentration</td><td>Tracks whether new-user matching traffic is over-concentrated on top creators.<br><span class="mono" style="font-size:12px;">(matching traffic to top 10% of creators) ÷ (total matching traffic)</span></td><td class="thresh">Must not rise more than N points vs. the 14-day average</td></tr>
-        <tr><td class="name">Free Diamond Grant Efficiency</td><td>Tracks whether diamonds granted to new users are converting into paid value worth the cost.<br><span class="mono" style="font-size:12px;">(free diamond value granted) ÷ (total paid amount within 30 days)</span></td><td class="thresh">Must not worsen more than N points vs. the average of the last 4 fully-elapsed 30-day cohorts</td></tr>
-        <tr><td class="name">New Creator Survival Rate</td><td>Tracks whether new creators stick around.<br><span class="mono" style="font-size:12px;">(new creators with ≥1 of: streaming / uploading / 1-on-1 within D7) ÷ total new creators</span></td><td class="thresh">Must not fall more than N points vs. the 14-day average</td></tr>
+        <tr>
+          <th><span class="lang-en">Metric</span><span class="lang-zh">指標</span></th>
+          <th><span class="lang-en">Definition / Formula</span><span class="lang-zh">定義 / 公式</span></th>
+          <th><span class="lang-en">Threshold logic</span><span class="lang-zh">門檻設定方式</span></th>
+        </tr>
+        <tr>
+          <td class="name"><span class="lang-en">Creator Exposure Concentration</span><span class="lang-zh">創作者曝光集中度</span></td>
+          <td>
+            <span class="lang-en">Tracks whether new-user matching traffic is over-concentrated on top creators.</span>
+            <span class="lang-zh">觀察媒合流量是否過度集中在頭部創作者。</span>
+            <br><span class="mono" style="font-size:12px;">
+              <span class="lang-en">(matching traffic to top 10% of creators) ÷ (total matching traffic)</span>
+              <span class="lang-zh">(前10%創作者的媒合流量) ÷ (總媒合流量)</span>
+            </span>
+          </td>
+          <td class="thresh"><span class="lang-en">Must not rise more than N points vs. the 14-day average</span><span class="lang-zh">不可較14日均值上升超過 N 個百分點</span></td>
+        </tr>
+        <tr>
+          <td class="name"><span class="lang-en">Free Diamond Grant Efficiency</span><span class="lang-zh">免費鑽石發放效率</span></td>
+          <td>
+            <span class="lang-en">Tracks whether diamonds granted to new users convert into paid value worth the cost.</span>
+            <span class="lang-zh">觀察發放給新用戶的鑽石,是否轉化為值得的付費價值。</span>
+            <br><span class="mono" style="font-size:12px;">
+              <span class="lang-en">(free diamond value granted) ÷ (total paid amount within 30 days)</span>
+              <span class="lang-zh">(發放的免費鑽石價值) ÷ (30日內總付費金額)</span>
+            </span>
+          </td>
+          <td class="thresh"><span class="lang-en">Must not worsen more than N points vs. the average of the last 4 fully-elapsed 30-day cohorts</span><span class="lang-zh">不可較過去4個已滿30日批次的均值惡化超過 N 個百分點</span></td>
+        </tr>
+        <tr>
+          <td class="name"><span class="lang-en">New Creator Survival Rate</span><span class="lang-zh">新進創作者存活率</span></td>
+          <td>
+            <span class="lang-en">Tracks whether new creators stick around.</span>
+            <span class="lang-zh">觀察新進創作者是否留得住。</span>
+            <br><span class="mono" style="font-size:12px;">
+              <span class="lang-en">(new creators with ≥1 of streaming / uploading / 1-on-1 within D7) ÷ total new creators</span>
+              <span class="lang-zh">(D7內有開播、上傳或1對1任一行為的新創作者數) ÷ 新進創作者總數</span>
+            </span>
+          </td>
+          <td class="thresh"><span class="lang-en">Must not fall more than N points vs. the 14-day average</span><span class="lang-zh">不可較14日均值下降超過 N 個百分點</span></td>
+        </tr>
       </table>
     </div>
-    <div class="limit-tag" style="margin-top:18px;">Thresholds above are initial assumptions; actual figures need calibration against real platform data.</div>
-  </div>
-</section>
-
-<section id="why">
-  <div class="wrap">
-    <h2 class="section-title">Why These Three Stages</h2>
-    <div class="why-box">A new user's journey has many optimizable points, including search, recommendations, and external marketing. This strategy focuses on Arrival, Connection, and Amplification because neither has a systematic mechanism today, and together they form one complete growth path rather than isolated fixes.</div>
+    <div class="limit-tag" style="margin-top:18px;">
+      <span class="lang-en">Thresholds above are initial assumptions; actual figures need calibration against real platform data.</span>
+      <span class="lang-zh">以上門檻為初步假設,實際數字需依平台真實數據校準。</span>
+    </div>
   </div>
 </section>
 
 <section id="bets">
   <div class="wrap">
     <h2 class="section-title">3 Strategic Bets</h2>
-
     <div class="pillar-chips">
-      <div class="pillar-chip" data-pillar="arrival"><span class="dot"></span>Arrival</div>
-      <div class="pillar-chip" data-pillar="connection"><span class="dot"></span>Connection</div>
-      <div class="pillar-chip" data-pillar="amplification"><span class="dot"></span>Amplification</div>
+      <div class="pillar-chip" data-pillar="arrival"><span class="dot"></span><span class="lang-en">Arrival</span><span class="lang-zh">抵達 Arrival</span></div>
+      <div class="pillar-chip" data-pillar="connection"><span class="dot"></span><span class="lang-en">Connection</span><span class="lang-zh">連結 Connection</span></div>
+      <div class="pillar-chip" data-pillar="amplification"><span class="dot"></span><span class="lang-en">Amplification</span><span class="lang-zh">擴散 Amplification</span></div>
     </div>
-
     <div id="pillar-stack"></div>
   </div>
 </section>
@@ -282,19 +382,20 @@
 <section id="sequence">
   <div class="wrap">
     <h2 class="section-title">Sequence &amp; Validate</h2>
-    <p class="section-sub">Note: every step under the three bets is ranked top to bottom in the order it should happen.</p>
-
+    <p class="section-sub">
+      <span class="lang-en">Note: every step under the three bets is ranked top to bottom in the order it should happen.</span>
+      <span class="lang-zh">將三個 bet 底下的每個步驟,依先後順序由上而下排序。</span>
+    </p>
     <div class="seq-filter">
-      <div class="seq-btn active" data-pillar="arrival">Arrival<div class="sub">can start first</div></div>
-      <div class="seq-btn active" data-pillar="connection">Connection<div class="sub">can run in parallel</div></div>
-      <div class="seq-btn active" data-pillar="amplification">Amplification<div class="sub">depends on both</div></div>
+      <div class="seq-btn active" data-pillar="arrival"><span class="lang-en">Arrival</span><span class="lang-zh">抵達</span><div class="sub"><span class="lang-en">can start first</span><span class="lang-zh">可先行</span></div></div>
+      <div class="seq-btn active" data-pillar="connection"><span class="lang-en">Connection</span><span class="lang-zh">連結</span><div class="sub"><span class="lang-en">can run in parallel</span><span class="lang-zh">可並行</span></div></div>
+      <div class="seq-btn active" data-pillar="amplification"><span class="lang-en">Amplification</span><span class="lang-zh">擴散</span><div class="sub"><span class="lang-en">depends on both</span><span class="lang-zh">依賴前兩者</span></div></div>
     </div>
-
     <div class="rank-list" id="rank-list"></div>
-
     <div class="principle-box">
-      <div class="eyebrow">General validation rule</div>
-      When multiple variables are tested within a bet, evaluate for diminishing returns before combining effective ones. If only one works, roll it out alone to avoid unnecessary complexity.
+      <div class="eyebrow"><span class="lang-en">General validation rule</span><span class="lang-zh">通用驗證原則</span></div>
+      <span class="lang-en">When multiple variables are tested within a bet, evaluate for diminishing returns before combining effective ones. If only one works, roll it out alone to avoid unnecessary complexity.</span>
+      <span class="lang-zh">當一個 bet 內同時測試多個變數時,先評估疊加是否有邊際效益遞減,再決定是否合併上線;若只有一項有效,就單獨上線,避免不必要的複雜度。</span>
     </div>
   </div>
 </section>
@@ -302,6 +403,18 @@
 <footer>Alex Yu · SWAG Product Manager Take-Home</footer>
 
 <script>
+  let currentLang = 'en';
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      currentLang = btn.dataset.lang;
+      document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.dataset.lang===currentLang));
+      document.body.classList.toggle('zh', currentLang==='zh');
+      renderStack();
+      renderRank();
+    });
+  });
+
   document.querySelectorAll('.j-card').forEach(card=>{
     card.addEventListener('click', ()=> card.classList.toggle('open'));
   });
@@ -314,59 +427,110 @@
     });
   });
 
-  // ===== BET STEP DATA =====
+  // ===== BET STEP DATA (bilingual) =====
   const pillars = {
-    arrival: {
-      label:"Arrival",
-      problem:"New users don't know what to do after landing, or where to find a creator they're interested in. Matching and onboarding guidance aren't enough to help them find direction quickly.",
-      summary:"Expand matching that currently favors top creators to also surface small and mid-size creators, giving new users a wider range of options.",
-      tradeoff:"Over-correcting toward small and mid-size creators to promote exposure fairness risks lowering the quality of a new user's first interaction, a direct trade-off between Creator Exposure Concentration (Guardrail) and Activation quality.",
-      steps:[
-        { title:"Single-signal rule: fast rollout to validate direction",
-          mechanism:"Build a \"creator capacity score,\" using only \"recent time online\" in v1. Add this score as a secondary weight on top of the existing popularity-based ranking when matching, so a new user's first interaction isn't funneled entirely toward top streamers.",
-          metrics:"Creator response rate after a new user's first interaction; D7 return rate after Activation" },
-        { title:"Add response speed and message-queue length: weighted rule",
-          mechanism:"Weight three signals (time online, response speed, private-message queue length); queue length is an inverse signal. If real-time tracking is too costly, substitute a 24-hour rolling average response delay.",
-          metrics:"Whether response rate and D7 return rate improve further vs. the prior step; whether the mismatch rate declines" },
-        { title:"Evaluate whether to move to a model-based ranking",
-          mechanism:"If the weighted rule hasn't plateaued, there's no need to force a move to a model; if it has, evaluate training a ranking model on historical match-success data. Referred users who already have a specific creator in mind must be excluded from this matching logic.",
-          metrics:"A/B comparison of model-based vs. weighted-rule ranking; whether the mismatch rate for referred users reaches zero" }
-      ]
+    en: {
+      arrival: {
+        label:"Arrival",
+        problem:"New users don't know what to do after landing, or where to find a creator they're interested in.",
+        summary:"Expand matching that currently favors top creators to also surface small and mid-size creators, giving new users a wider range of options.",
+        tradeoff:"Over-correcting toward small and mid-size creators risks lowering first-interaction quality, a trade-off between Creator Exposure Concentration and Activation quality.",
+        steps:[
+          { title:"Step 1: single-signal rule using time online, fast rollout to validate direction",
+            mechanism:"Build a creator capacity score using only recent time online in v1, added as a secondary weight on top of existing popularity-based ranking, so a new user's first interaction isn't funneled entirely toward top streamers.",
+            metrics:"Creator response rate after a new user's first interaction; D7 return rate after Activation" },
+          { title:"Step 2: add response speed and message-queue length as a weighted rule",
+            mechanism:"Weight three signals (time online, response speed, private-message queue length); queue length is an inverse signal. If real-time tracking is too costly, substitute a 24-hour rolling average response delay.",
+            metrics:"Whether response rate and D7 return rate improve further vs. Step 1; whether the mismatch rate declines" },
+          { title:"Step 3: evaluate whether to move to a model-based ranking, and exclude referred users from Amplification",
+            mechanism:"If the weighted rule hasn't plateaued, there's no need to force a move to a model; if it has, evaluate training a ranking model on historical match-success data. Referred users who already have a specific creator in mind must be excluded.",
+            metrics:"A/B comparison of model-based vs. weighted-rule ranking; whether the mismatch rate for referred users reaches zero" }
+        ]
+      },
+      connection: {
+        label:"Connection",
+        problem:"Even after finding a creator of interest, users may hesitate, lacking diamonds or lacking information (pricing, response speed, activity level).",
+        summary:"Make pricing and activity signals clearer to lower the decision barrier, and add onboarding guidance with completion incentives.",
+        tradeoff:"Overly generous resource guidance directly hits the Free Diamond Grant Efficiency guardrail, a trade-off between Activation intent and grant cost.",
+        steps:[
+          { title:"Step 1: launch resource guidance and information transparency, and validate",
+            mechanism:"On top of existing starter tasks, add progress guidance, a preview of total diamonds earned on full completion, milestone bonuses at 5/10/20 tasks, and a 7-day limited starter diamond pack. In parallel, add progressive disclosure to leaderboard cards (pricing range based on a 7-day median, plus activity level).",
+            metrics:"Task completion rate, starter-pack purchase rate, list-to-interaction CTR" },
+          { title:"Step 2: cross-optimize the flow for users referred through Amplification",
+            mechanism:"Users referred by a creator already have a specific target in mind. Test whether the disclosure flow can be simplified for them to reduce unnecessary friction.",
+            metrics:"Difference in decision time between referred users and organically-arrived users" }
+        ]
+      },
+      amplification: {
+        label:"Amplification",
+        problem:"Even after a positive interaction, the platform has no mechanism to carry it forward or turn it into platform growth. Creators already have external communities, but today this happens only sporadically.",
+        summary:"Turn creators' scattered external referral traffic into a trackable, scalable revenue-share partnership.",
+        tradeoff:"Re-matching referred users to other creators risks diluting the original creator's fan relationship; not doing so limits stickiness to the platform as a whole.",
+        steps:[
+          { title:"Step 1: referral triggered on a genuine action",
+            mechanism:"Set the trigger on a genuine action, not a shallow one like connecting an account, for example the referred user's first gift, message, or unlock.",
+            metrics:"Activation Rate of referred users vs. organically-arrived users" },
+          { title:"Step 2: two-way rewards, including recurring payouts",
+            mechanism:"The creator earns a share of the referred user's spend; the new user gets a diamond bonus on their first purchase. Once validated, shift from a one-time share to a recurring share tied to ongoing spend, capped at a set number of months.",
+            metrics:"7-day effective interaction volume and 30-day return rate of referred users, vs. organically-arrived users" },
+          { title:"Step 3: group-based incentive design (future direction, not expanded here)",
+            mechanism:"Once the referral mechanism matures, a group-based referral incentive could be developed further.",
+            metrics:"N/A", future:true }
+        ]
+      }
     },
-    connection: {
-      label:"Connection",
-      problem:"Even after finding a creator of interest, a user may hesitate to act, either lacking enough diamonds to send a gift, unlock content, or message, or lacking enough information to judge whether it's worth it (pricing, response speed, activity level).",
-      summary:"Make pricing, activity, and other signals clearer to lower the decision barrier, and add onboarding guidance with completion incentives to help users take the first step.",
-      tradeoff:"If resource guidance is too generous (task rewards or starter-pack discounts set too high), it directly hits the Free Diamond Grant Efficiency guardrail, a trade-off between raising Activation intent and controlling grant cost.",
-      steps:[
-        { title:"Resource guidance and information transparency: launch and validate",
-          mechanism:"On top of the existing starter tasks, add progress guidance (clearly showing completed vs. remaining items), a preview of the total diamonds earned on full completion, and milestone bonuses at 5/10/20 tasks completed; launch a 7-day limited starter diamond pack at a steep discount. In parallel, add progressive disclosure to leaderboard cards (pricing range based on a 7-day median, plus activity level).",
-          metrics:"Task completion rate, starter-pack purchase rate, list-to-interaction CTR" },
-        { title:"Cross-optimize with users referred through Amplification",
-          mechanism:"Users referred by a creator already have a specific target in mind. Test whether the disclosure flow can be simplified for them to reduce unnecessary friction.",
-          metrics:"Difference in decision time between referred users and organically-arrived users" }
-      ]
-    },
-    amplification: {
-      label:"Amplification",
-      problem:"Even when the first two stages go well and a user has a positive interaction, the platform currently has no mechanism to carry that experience forward, or to turn it into growth for the platform. Creators already have external communities, but today this only happens sporadically and with no system behind it.",
-      summary:"Turn creators' currently scattered external referral traffic into a trackable, scalable revenue-share partnership.",
-      tradeoff:"If the platform rushes to re-match referred users to other creators, it risks diluting the original creator's fan relationship; if it does no re-matching at all, the platform is just offering a free referral tool without building any stickiness to the platform as a whole.",
-      steps:[
-        { title:"Phase 1: minimum viable version",
-          mechanism:"Set the trigger on a genuine action, not a shallow one like connecting an account (e.g., the referred user's first gift, message, or unlock). Two-way reward: the creator earns a share of the referred user's first-month spend; the new user gets a diamond bonus on their first purchase.",
-          metrics:"Activation Rate and 7-day effective interaction volume of referred users, vs. organically-arrived users" },
-        { title:"Phase 2: recurring rewards and expanded channels",
-          mechanism:"If Phase 1 validates, shift the reward from a one-time share to a recurring share tied to the referred user's ongoing spend (capped at a set number of months); extend the channel from individual creators to KOL/content partners, under one unified tracking and payout system.",
-          metrics:"30-day return rate of referred users, vs. organically-arrived users" },
-        { title:"Phase 3 (future direction, not expanded here)",
-          mechanism:"Once channels and the payout mechanism mature, a group-based referral incentive could be developed further.",
-          metrics:"N/A", future:true }
-      ]
+    zh: {
+      arrival: {
+        label:"抵達",
+        problem:"新用戶進站後不知道該做什麼,也不知道去哪裡找感興趣的創作者。",
+        summary:"把目前偏向頭部創作者的媒合機制,擴大到讓中小型創作者也能被看見,讓新用戶有更多元的選擇。",
+        tradeoff:"過度導向中小型創作者以追求曝光公平,可能犧牲新用戶第一次互動的品質,這是創作者曝光集中度(Guardrail)與 Activation 品質之間的取捨。",
+        steps:[
+          { title:"步驟1:用上線時長做單一指標規則,快速上線驗證方向",
+            mechanism:"建立「創作者可承接流量分數」,初版僅用「近期上線時長」計算,在既有熱門度排序中加入此分數作為次要權重,避免新用戶第一次互動全部湧向頭部主播。",
+            metrics:"新用戶首次互動後的創作者回應率、Activation 後 D7 回訪率" },
+          { title:"步驟2:加入回應速度與私訊佇列長度,做加權規則",
+            mechanism:"三項指標(上線時長、回應速度、私訊佇列長度)加權計算,佇列長度為反向指標;若即時追蹤成本過高,可先用近24小時平均回覆延遲替代。",
+            metrics:"相較步驟1,回應率與 D7 回訪率是否進一步提升、誤判率是否下降" },
+          { title:"步驟3:評估是否導入模型化排序,並排除來自擴散環節的導流用戶",
+            mechanism:"若加權規則效果尚未出現天花板,不需為模型化而模型化;若已飽和,評估用歷史媒合成功數據訓練排序模型。需排除已有明確目標的導流用戶。",
+            metrics:"模型化 vs. 加權規則的 A/B 對比、導流用戶被誤媒合的比例是否為零" }
+        ]
+      },
+      connection: {
+        label:"連結",
+        problem:"即使找到感興趣的創作者,用戶也可能因為缺乏鑽石,或缺乏資訊(定價、回覆速度、活躍度)而猶豫。",
+        summary:"讓定價與活躍度等資訊更清楚,降低決策門檻,並加入新手引導與完成誘因。",
+        tradeoff:"資源引導若過於慷慨,會直接衝擊免費鑽石發放效率這條 Guardrail,這是 Activation 意願與發放成本之間的取捨。",
+        steps:[
+          { title:"步驟1:上線資源引導與資訊透明化,並驗證成效",
+            mechanism:"在既有新手任務基礎上,補上任務進度指引、里程碑獎勵(完成5/10/20項額外加碼),並上線7天限時新手鑽石包;同時排行榜卡片加入漸進式資訊揭露(價格區間採近7日中位數、活躍度)。",
+            metrics:"任務完成率、新手鑽石包購買率、List-to-互動 CTR" },
+          { title:"步驟2:針對擴散環節導流來的用戶,做交叉優化",
+            mechanism:"導流用戶已有既定目標,測試是否可簡化揭露流程,減少不必要的資訊摩擦。",
+            metrics:"導流用戶 vs. 自然抵達用戶的決策時間差異" }
+        ]
+      },
+      amplification: {
+        label:"擴散",
+        problem:"即使發生正向互動,平台目前沒有機制讓它延續,也沒有反饋帶動平台成長。創作者本身已有外部社群,但目前只是零星發生。",
+        summary:"把創作者原本零散的外部導流,轉化為可追蹤、可放大的分潤合作。",
+        tradeoff:"把導流用戶重新媒合給其他創作者,可能稀釋原創作者的粉絲關係;完全不做,則難以建立用戶對平台整體的黏著度。",
+        steps:[
+          { title:"步驟1:觸發條件設在真實行為的 referral",
+            mechanism:"觸發條件設在有效行為,而非連接帳號等淺層動作,例如首次送禮、私訊、或解鎖任一行為。",
+            metrics:"導流用戶的 Activation Rate,相較自然抵達用戶的差異" },
+          { title:"步驟2:雙向獎勵,含持續性分潤",
+            mechanism:"創作者依帶來的新用戶消費獲得分潤;新用戶獲得首次消費的額外鑽石補貼。驗證有效後,獎勵從單次分潤改為依用戶後續消費持續產生分潤(設上限月數)。",
+            metrics:"導流用戶7日有效互動次數與30日回訪率,相較自然抵達用戶的差異" },
+          { title:"步驟3:群體化誘因設計(未來方向,本次不展開)",
+            mechanism:"若導流機制成熟,可進一步發展群體化的推薦誘因設計。",
+            metrics:"未定", future:true }
+        ]
+      }
     }
   };
 
-  // ---- Bets: single-select ----
   let activePillar = "arrival";
 
   function renderStack(){
@@ -375,10 +539,15 @@
     });
     const stack = document.getElementById('pillar-stack');
     if(!activePillar){
-      stack.innerHTML = '<div class="empty-hint">Select a stage above to see its full step-by-step plan</div>';
+      stack.innerHTML = currentLang==='zh'
+        ? '<div class="empty-hint">選擇上方環節查看完整分步計畫</div>'
+        : '<div class="empty-hint">Select a stage above to see its full step-by-step plan</div>';
       return;
     }
-    const p = pillars[activePillar];
+    const p = pillars[currentLang][activePillar];
+    const mechLabel = currentLang==='zh' ? '機制' : 'Mechanism';
+    const metLabel = currentLang==='zh' ? '觀察指標' : 'Metrics';
+    const tradeLabel = 'Trade-off';
     const stepsHtml = p.steps.map((s,i)=>`
       <div class="step-card ${s.future?'future':''}" data-idx="${i}">
         <div class="step-head">
@@ -387,8 +556,8 @@
           <div class="chevron">▸</div>
         </div>
         <div class="step-body">
-          <div class="row"><b>Mechanism</b><span>${s.mechanism}</span></div>
-          <div class="row"><b>Metrics</b><span>${s.metrics}</span></div>
+          <div class="row"><b>${mechLabel}</b><span>${s.mechanism}</span></div>
+          <div class="row"><b>${metLabel}</b><span>${s.metrics}</span></div>
         </div>
       </div>
     `).join('');
@@ -399,7 +568,7 @@
       </div>
       <div class="pillar-summary">${p.summary}</div>
       <div class="step-row">${stepsHtml}</div>
-      <div class="trade-off"><b>Trade-off</b>${p.tradeoff}</div>
+      <div class="trade-off"><b>${tradeLabel}</b>${p.tradeoff}</div>
     </div>`;
     stack.querySelectorAll('.step-card').forEach(card=>{
       card.addEventListener('click', ()=> card.classList.toggle('open'));
@@ -415,59 +584,94 @@
   });
   renderStack();
 
-  // ---- Sequence: filterable ranked list ----
-  const rankData = [
-    { pillar:"arrival", title:"Single-signal rule: fast rollout to validate direction",
-      why:"Requires building a creator capacity score, but doesn't depend on any other bet's output. Can run in parallel with Connection.",
-      dep:"low", threshold:"med", effort:"med", impact:"med" },
-    { pillar:"connection", title:"Resource guidance and information transparency: launch and validate",
-      why:"Reuses existing data with a new presentation layer. No new system required, no dependencies, lowest starting threshold, fastest to show results independently.",
-      dep:"low", threshold:"low", effort:"low", impact:"low" },
-    { pillar:"arrival", title:"Add response speed and message-queue length: weighted rule",
-      why:"Needs the data foundation validated in the previous step before it's worth adding more signals.",
-      dep:"med", threshold:"med", effort:"med", impact:"med" },
-    { pillar:"amplification", title:"Phase 1: minimum viable version",
-      why:"Referred users need the mechanisms from Arrival and Connection already in place to be properly received, so this waits until both show initial results.",
-      dep:"high", threshold:"high", effort:"high", impact:"high" },
-    { pillar:"connection", title:"Cross-optimize with users referred through Amplification",
-      why:"Requires an actual population of referred users from Amplification before there's anyone to test a simplified flow against.",
-      dep:"high", threshold:"med", effort:"low", impact:"med" },
-    { pillar:"arrival", title:"Evaluate whether to move to a model-based ranking",
-      why:"Needs effectiveness data from the weighted-rule step to judge whether it has plateaued, and also needs referred users from Amplification to exclude. Both inputs must be in place first.",
-      dep:"high", threshold:"high", effort:"high", impact:"med" },
-    { pillar:"amplification", title:"Phase 2: recurring rewards and expanded channels",
-      why:"Requires Phase 1 to validate as effective before committing further investment into a mechanism not yet proven.",
-      dep:"high", threshold:"high", effort:"high", impact:"high" }
-  ];
+  // ===== SEQUENCE DATA (bilingual) =====
+  const rankData = {
+    en: [
+      { pillar:"connection", title:"Connection, Step 1",
+        why:"Reuses existing data with a new presentation layer. No new system required, no dependencies, lowest starting threshold, fastest to show results independently.",
+        dep:"low", threshold:"low", effort:"low", impact:"low" },
+      { pillar:"arrival", title:"Arrival, Step 1",
+        why:"Requires building a creator capacity score, but doesn't depend on any other bet's output. Can run in parallel with Connection.",
+        dep:"low", threshold:"med", effort:"med", impact:"med" },
+      { pillar:"arrival", title:"Arrival, Step 2",
+        why:"Needs the data foundation validated in Step 1 before it's worth adding more signals.",
+        dep:"med", threshold:"med", effort:"med", impact:"med" },
+      { pillar:"amplification", title:"Amplification, Step 1",
+        why:"Referred users need the mechanisms from Arrival and Connection already in place to be properly received, so this waits until both show initial results.",
+        dep:"high", threshold:"high", effort:"high", impact:"high" },
+      { pillar:"connection", title:"Connection, Step 2",
+        why:"Requires an actual population of referred users from Amplification Step 1 before there's anyone to test a simplified flow against.",
+        dep:"high", threshold:"med", effort:"low", impact:"med" },
+      { pillar:"arrival", title:"Arrival, Step 3",
+        why:"Needs effectiveness data from Step 2 to judge whether it has plateaued, and also needs referred users from Amplification to exclude. Both inputs must be in place first.",
+        dep:"high", threshold:"high", effort:"high", impact:"med" },
+      { pillar:"amplification", title:"Amplification, Step 2",
+        why:"Requires Step 1 to validate as effective before committing further investment into a mechanism not yet proven.",
+        dep:"high", threshold:"high", effort:"high", impact:"high" }
+    ],
+    zh: [
+      { pillar:"connection", title:"連結,步驟1",
+        why:"沿用既有資料重新設計呈現方式,不需新建系統,無任何依賴,啟動門檻最低,最快能獨立見效。",
+        dep:"low", threshold:"low", effort:"low", impact:"low" },
+      { pillar:"arrival", title:"抵達,步驟1",
+        why:"需先建立創作者可承接流量分數,但不依賴其他 bet 的產出,可以與連結並行推進。",
+        dep:"low", threshold:"med", effort:"med", impact:"med" },
+      { pillar:"arrival", title:"抵達,步驟2",
+        why:"需要步驟1驗證出的資料基礎,才能判斷是否值得加入更多訊號。",
+        dep:"med", threshold:"med", effort:"med", impact:"med" },
+      { pillar:"amplification", title:"擴散,步驟1",
+        why:"導流用戶需要抵達與連結已打底的機制才能被承接,故等待前兩者驗證出初步成效後才啟動。",
+        dep:"high", threshold:"high", effort:"high", impact:"high" },
+      { pillar:"connection", title:"連結,步驟2",
+        why:"需要擴散步驟1帶來實際的導流用戶後,才有對象可以測試簡化流程是否合適。",
+        dep:"high", threshold:"med", effort:"low", impact:"med" },
+      { pillar:"arrival", title:"抵達,步驟3",
+        why:"需要步驟2的效果數據判斷是否飽和,同時需排除擴散帶來的導流用戶,兩者皆須等待前置資料到位。",
+        dep:"high", threshold:"high", effort:"high", impact:"med" },
+      { pillar:"amplification", title:"擴散,步驟2",
+        why:"需步驟1驗證有效後才進一步加碼,避免在機制未證實前就擴大投入。",
+        dep:"high", threshold:"high", effort:"high", impact:"high" }
+    ]
+  };
 
-  const badgeLabel = {low:"Low", med:"Med", high:"High"};
-  const pillarLabelMap = {arrival:"Arrival", connection:"Connection", amplification:"Amplification"};
+  const badgeLabel = { en:{low:"Low",med:"Med",high:"High"}, zh:{low:"低",med:"中",high:"高"} };
+  const pillarLabelMap = { en:{arrival:"Arrival",connection:"Connection",amplification:"Amplification"}, zh:{arrival:"抵達",connection:"連結",amplification:"擴散"} };
+  const metaLabels = {
+    en:{dep:"Dependency", threshold:"Threshold", effort:"Effort", impact:"Speed to impact", fast:"Fast", slow:"Slow", mid:"Med"},
+    zh:{dep:"相依性", threshold:"啟動門檻", effort:"Effort", impact:"見效速度", fast:"快", slow:"慢", mid:"中"}
+  };
   let activeFilters = new Set(["arrival","connection","amplification"]);
 
   function renderRank(){
     document.querySelectorAll('.seq-btn').forEach(btn=>{
       btn.classList.toggle('active', activeFilters.has(btn.dataset.pillar));
     });
-    const list = rankData.filter(r=>activeFilters.has(r.pillar));
+    const data = rankData[currentLang];
+    const list = data.filter(r=>activeFilters.has(r.pillar));
     const el = document.getElementById('rank-list');
     if(list.length===0){
-      el.innerHTML = '<div class="empty-hint">Select a stage above to see its sequence</div>';
+      el.innerHTML = currentLang==='zh'
+        ? '<div class="empty-hint">選擇上方環節查看排序</div>'
+        : '<div class="empty-hint">Select a stage above to see its sequence</div>';
       return;
     }
+    const bl = badgeLabel[currentLang];
+    const ml = metaLabels[currentLang];
+    const pl = pillarLabelMap[currentLang];
     el.innerHTML = list.map((r,i)=>`
       <div class="rank-item ${r.pillar}">
         <div class="rank-num">${i+1}</div>
         <div>
           <div class="rank-main">
-            <span class="tag">${pillarLabelMap[r.pillar]}</span>
+            <span class="tag">${pl[r.pillar]}</span>
             <span class="title">${r.title}</span>
           </div>
           <div class="why">${r.why}</div>
           <div class="meta-line">
-            <span>Dependency ${badgeLabel[r.dep]}</span>
-            <span>Threshold ${badgeLabel[r.threshold]}</span>
-            <span>Effort ${badgeLabel[r.effort]}</span>
-            <span>Speed to impact ${r.impact==='low'?'Fast':r.impact==='high'?'Slow':'Med'}</span>
+            <span>${ml.dep} ${bl[r.dep]}</span>
+            <span>${ml.threshold} ${bl[r.threshold]}</span>
+            <span>${ml.effort} ${bl[r.effort]}</span>
+            <span>${ml.impact} ${r.impact==='low'?ml.fast:r.impact==='high'?ml.slow:ml.mid}</span>
           </div>
         </div>
       </div>
@@ -489,7 +693,7 @@
 
   // ---- Quick nav: highlight active section on scroll ----
   const navLinks = document.querySelectorAll('.quicknav a');
-  const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+  const navSections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
 
   function setActiveNav(id){
     navLinks.forEach(a=>{
@@ -497,7 +701,7 @@
     });
   }
 
-  const observer = new IntersectionObserver((entries)=>{
+  const navObserver = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
         setActiveNav(entry.target.id);
@@ -505,7 +709,7 @@
     });
   }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
 
-  sections.forEach(sec => { if(sec) observer.observe(sec); });
+  navSections.forEach(sec => { if(sec) navObserver.observe(sec); });
 </script>
 
 </body>

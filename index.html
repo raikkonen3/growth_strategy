@@ -585,50 +585,52 @@
   renderStack();
 
   // ===== SEQUENCE DATA (bilingual) =====
+  // title is intentionally omitted here; it's pulled live from pillars[currentLang][pillar].steps[stepIndex].title
+  // so the wording always matches the Bets section exactly.
   const rankData = {
     en: [
-      { pillar:"connection", title:"Connection, Step 1",
+      { pillar:"connection", stepIndex:0,
         why:"Reuses existing data with a new presentation layer. No new system required, no dependencies, lowest starting threshold, fastest to show results independently.",
         dep:"low", threshold:"low", effort:"low", impact:"low" },
-      { pillar:"arrival", title:"Arrival, Step 1",
+      { pillar:"arrival", stepIndex:0,
         why:"Requires building a creator capacity score, but doesn't depend on any other bet's output. Can run in parallel with Connection.",
         dep:"low", threshold:"med", effort:"med", impact:"med" },
-      { pillar:"arrival", title:"Arrival, Step 2",
+      { pillar:"arrival", stepIndex:1,
         why:"Needs the data foundation validated in Step 1 before it's worth adding more signals.",
         dep:"med", threshold:"med", effort:"med", impact:"med" },
-      { pillar:"amplification", title:"Amplification, Step 1",
+      { pillar:"amplification", stepIndex:0,
         why:"Referred users need the mechanisms from Arrival and Connection already in place to be properly received, so this waits until both show initial results.",
         dep:"high", threshold:"high", effort:"high", impact:"high" },
-      { pillar:"connection", title:"Connection, Step 2",
+      { pillar:"connection", stepIndex:1,
         why:"Requires an actual population of referred users from Amplification Step 1 before there's anyone to test a simplified flow against.",
         dep:"high", threshold:"med", effort:"low", impact:"med" },
-      { pillar:"arrival", title:"Arrival, Step 3",
+      { pillar:"arrival", stepIndex:2,
         why:"Needs effectiveness data from Step 2 to judge whether it has plateaued, and also needs referred users from Amplification to exclude. Both inputs must be in place first.",
         dep:"high", threshold:"high", effort:"high", impact:"med" },
-      { pillar:"amplification", title:"Amplification, Step 2",
+      { pillar:"amplification", stepIndex:1,
         why:"Requires Step 1 to validate as effective before committing further investment into a mechanism not yet proven.",
         dep:"high", threshold:"high", effort:"high", impact:"high" }
     ],
     zh: [
-      { pillar:"connection", title:"連結,步驟1",
+      { pillar:"connection", stepIndex:0,
         why:"沿用既有資料重新設計呈現方式,不需新建系統,無任何依賴,啟動門檻最低,最快能獨立見效。",
         dep:"low", threshold:"low", effort:"low", impact:"low" },
-      { pillar:"arrival", title:"抵達,步驟1",
+      { pillar:"arrival", stepIndex:0,
         why:"需先建立創作者可承接流量分數,但不依賴其他 bet 的產出,可以與連結並行推進。",
         dep:"low", threshold:"med", effort:"med", impact:"med" },
-      { pillar:"arrival", title:"抵達,步驟2",
+      { pillar:"arrival", stepIndex:1,
         why:"需要步驟1驗證出的資料基礎,才能判斷是否值得加入更多訊號。",
         dep:"med", threshold:"med", effort:"med", impact:"med" },
-      { pillar:"amplification", title:"擴散,步驟1",
+      { pillar:"amplification", stepIndex:0,
         why:"導流用戶需要抵達與連結已打底的機制才能被承接,故等待前兩者驗證出初步成效後才啟動。",
         dep:"high", threshold:"high", effort:"high", impact:"high" },
-      { pillar:"connection", title:"連結,步驟2",
+      { pillar:"connection", stepIndex:1,
         why:"需要擴散步驟1帶來實際的導流用戶後,才有對象可以測試簡化流程是否合適。",
         dep:"high", threshold:"med", effort:"low", impact:"med" },
-      { pillar:"arrival", title:"抵達,步驟3",
+      { pillar:"arrival", stepIndex:2,
         why:"需要步驟2的效果數據判斷是否飽和,同時需排除擴散帶來的導流用戶,兩者皆須等待前置資料到位。",
         dep:"high", threshold:"high", effort:"high", impact:"med" },
-      { pillar:"amplification", title:"擴散,步驟2",
+      { pillar:"amplification", stepIndex:1,
         why:"需步驟1驗證有效後才進一步加碼,避免在機制未證實前就擴大投入。",
         dep:"high", threshold:"high", effort:"high", impact:"high" }
     ]
@@ -658,13 +660,15 @@
     const bl = badgeLabel[currentLang];
     const ml = metaLabels[currentLang];
     const pl = pillarLabelMap[currentLang];
-    el.innerHTML = list.map((r,i)=>`
+    el.innerHTML = list.map((r,i)=>{
+      const stepTitle = pillars[currentLang][r.pillar].steps[r.stepIndex].title;
+      return `
       <div class="rank-item ${r.pillar}">
         <div class="rank-num">${i+1}</div>
         <div>
           <div class="rank-main">
             <span class="tag">${pl[r.pillar]}</span>
-            <span class="title">${r.title}</span>
+            <span class="title">${stepTitle}</span>
           </div>
           <div class="why">${r.why}</div>
           <div class="meta-line">
@@ -675,7 +679,7 @@
           </div>
         </div>
       </div>
-    `).join('');
+    `;}).join('');
   }
 
   document.querySelectorAll('.seq-btn').forEach(btn=>{
